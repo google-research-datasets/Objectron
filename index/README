@@ -1,0 +1,10 @@
+These directory contains the index for all the publicly released videos in Objectron dataset that have annotations. 
+For each category, there are three files: class_annotations, and the 20/80 test/train split: class_annotations_test and class_annotations_train. 
+
+Each file contains multiple lines with the format class/batch-i/j. Combine this with the root directory of the Objectron to get the key for videos and annotations.
+For example, for public URLs:
+* annotation file: https://storage.googleapis.com/objectron/annotations/class/batch-i/j.pbdata
+* video file: https://storage.googleapis.com/objectron/videos/class/batch-i/j/video.MOV
+* AR metadata: https://storage.googleapis.com/objectron/videos/class/batch-i/j/geometry.pbdata
+
+You can use the scripts in this repo to process the annotation and metadata protos and/or convert them in to Tensorflow examples.
