@@ -115,3 +115,66 @@ FEATURE_MAP = {
     FEATURE_NAMES['PLANE_NORMAL']:
         tf.io.VarLenFeature(dtype=tf.float32),
 }
+
+# This is pretty much identical to the FEATURE_MAP for single frame examples, 
+# the only difference is instead of FixedLenFeature, each feature has the type FixedLenSequenceFeature.
+# VarLenFeature remains the same.
+SEQUENCE_FEATURE_MAP = {
+    FEATURE_NAMES['IMAGE_ENCODED']:
+        tf.io.FixedLenSequenceFeature(shape=[], dtype=tf.string),
+    FEATURE_NAMES['IMAGE_FORMAT']:
+        tf.io.FixedLenSequenceFeature(shape=[], dtype=tf.string),
+    FEATURE_NAMES['IMAGE_FILENAME']:
+        tf.io.FixedLenSequenceFeature(shape=[], dtype=tf.string),
+    FEATURE_NAMES['IMAGE_WIDTH']:
+        tf.io.FixedLenSequenceFeature(shape=[1], dtype=tf.int64),
+    FEATURE_NAMES['IMAGE_HEIGHT']:
+        tf.io.FixedLenSequenceFeature(shape=[1], dtype=tf.int64),
+    FEATURE_NAMES['COLOR_SPACE']:
+        tf.io.FixedLenSequenceFeature(shape=[], dtype=tf.string),
+    FEATURE_NAMES['NUM_CHANNELS']:
+        tf.io.FixedLenSequenceFeature(shape=[1], dtype=tf.int64),
+    FEATURE_NAMES['TIMESTAMP_MCSEC']:
+        tf.io.FixedLenSequenceFeature(shape=[], dtype=tf.int64),
+    FEATURE_NAMES['IMAGE_ID']:
+        tf.io.FixedLenSequenceFeature(shape=[1], dtype=tf.int64),
+    FEATURE_NAMES['POINT_2D']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['POINT_3D']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['POINT_NUM']:
+        tf.io.VarLenFeature(dtype=tf.int64),
+    FEATURE_NAMES['INSTANCE_NUM']:
+        tf.io.FixedLenSequenceFeature(shape=[1], dtype=tf.int64),
+    FEATURE_NAMES['PROJECTION_MATRIX']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['VIEW_MATRIX']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['INTRINSIC_MATRIX']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['EXTRINSIC_MATRIX']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['ORIENTATION']:
+        tf.io.VarLenFeature(dtype=tf.string),
+    FEATURE_NAMES['OBJECT_NAME']:
+        tf.io.VarLenFeature(dtype=tf.string),
+    FEATURE_NAMES['OBJECT_TRANSLATION']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['OBJECT_ORIENTATION']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['OBJECT_SCALE']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['VISIBILITY']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['PLANE_CENTER']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+    FEATURE_NAMES['PLANE_NORMAL']:
+        tf.io.VarLenFeature(dtype=tf.float32),
+}
+
+SEQUENCE_CONTEXT_MAP = {
+    'sequence_id':
+        tf.io.FixedLenFeature(shape=[], dtype=tf.string, default_value=''),
+    'count':
+        tf.io.FixedLenFeature(shape=[], dtype=tf.int64, default_value=-1),
+}
