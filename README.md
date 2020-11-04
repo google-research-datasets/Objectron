@@ -19,7 +19,7 @@
 
 
 
-The Objectron dataset is a collection of short, object-centric video clips each of which is accompanied by AR session metadata that includes camera poses, sparse point-clouds and characterization of the planar surfaces in the surrounding environment. In each video, the camera moves around the object, capturing it from different angles. The data also contain manually annotated 3D bounding boxes for each object, which describe the object’s position, orientation, and dimensions. The dataset consists of 15K annotated video clips supplemented with over 4M annotated images in the following categories: bikes, books, bottles, cameras, cereal boxes, chairs, cups, laptops, and shoes. In addition, to ensure geo-diversity, our dataset is collected from 10 countries across five continents.
+The Objectron dataset is a collection of short, object-centric video clips each of which is accompanied by AR session metadata that includes camera poses, sparse point-clouds and characterization of the planar surfaces in the surrounding environment. In each video, the camera moves around the object, capturing it from different angles. The data also contain manually annotated 3D bounding boxes for each object, which describe the object’s position, orientation, and dimensions. The dataset consists of 15K annotated video clips supplemented with over 4M annotated images in the following categories: `bikes, books, bottles, cameras, cereal boxes, chairs, cups, laptops`, and `shoes`. In addition, to ensure geo-diversity, our dataset is collected from 10 countries across five continents.
 
 ## Key Features
 - 15000 annotated videos and 4M annotated images
@@ -41,7 +41,12 @@ The data is stored in the [objectron bucket](https://storage.googleapis.com/obje
 - Supporting Apache Beam jobs to process the datasets on Google Cloud infrastructure.
 - The index of all available samples, as well as train/test splits for easy access and download.
 
-This repository provides the required schemas and tools to parse the dataset. 
+Raw dataset size is 1.9TB (including videos and their annotations). Total dataset size is 4.4TB (including videos, records, sequences, etc.). This repository provides the required schemas and tools to parse the dataset. 
+
+| class   | [bike](https://github.com/google-research-datasets/Objectron/blob/master/index/bike_annotations) | [book](https://github.com/google-research-datasets/Objectron/blob/master/index/book_annotations) | [bottle](https://github.com/google-research-datasets/Objectron/blob/master/index/bottle_annotations) | [camera](https://github.com/google-research-datasets/Objectron/blob/master/index/camera_annotations) | [cereal_box](https://github.com/google-research-datasets/Objectron/blob/master/index/cereal_box_annotations) | [chair](https://github.com/google-research-datasets/Objectron/blob/master/index/chair_annotations) | [cup](https://github.com/google-research-datasets/Objectron/blob/master/index/cup_annotations)  | [laptop](https://github.com/google-research-datasets/Objectron/blob/master/index/laptop_annotations) | [shoe](https://github.com/google-research-datasets/Objectron/blob/master/index/shoe_annotations) |
+|---------|------|------|--------|--------|------------|-------|------|--------|------|
+| #videos | 476  | 2024 | 1928   | 815    | 1609       | 1943  | 2204 | 1473   | 2116 |
+| #frames | 150k | 576k | 476k   | 233k   | 396k       | 488k  | 546k | 485k   | 557k |
 
 ## Examples
 - [Downloading the dataset](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Download%20Data.ipynb)
@@ -55,6 +60,6 @@ This repository provides the required schemas and tools to parse the dataset.
 Objectron is released under [Computational Use of Data Agreement 1.0 (C-UDA-1.0)](https://github.com/microsoft/Computational-Use-of-Data-Agreement). A [copy](https://github.com/google-research-datasets/Objectron/blob/master/LICENSE) of the license is available in this repository.
 
 
-**This is not an officially supported Google product.**
+**This is not an officially supported Google product.** If you have any question, you can email us at objectron@google.com or join our mailing list at objectron@googlegroups.com
 
 

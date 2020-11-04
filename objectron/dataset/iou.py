@@ -207,37 +207,6 @@ class IoU(object):
     else:
       return _POINT_ON_PLANE
 
-  def sort_vertices(self, poly, axis):
-    """Sort Vertices of the poly to be counter-clockwise."""
-    x, y = axis
-    index0 = -1
-    index1 = -1
-    for i, current_point in enumerate(poly):
-      prev_point = poly[(i + len(poly) - 1) % len(poly)]
-      delta = current_point - prev_point
-      b0 = (delta[x] != 0.0)
-      b1 = (delta[y] != 0.0)
-      if b0 and b1:
-        if delta[y] / delta[x] < 0:
-          return poly
-        else:
-          return poly.reverse()
-      elif not b0 and b1:
-        if index1 != -1:
-          if self._inside((poly[index1], prev_point), current_point, axis):
-            return poly
-          else:
-            return poly.reverse()
-        index0 = (i + len(poly) - 1) % len(poly)
-      elif b0 and not b1:
-        if index0 != -1:
-          if self._inside((poly[index0], prev_point), current_point, axis):
-            return poly
-          else:
-            return poly.reverse()
-        index1 = (i + len(poly) - 1) % len(poly)
-    return poly
-
   @property
   def intersection_points(self):
     return self._intersection_points
