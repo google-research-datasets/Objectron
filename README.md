@@ -12,7 +12,7 @@
   <a href="https://www.objectron.dev">Website</a> •
   <a href="#key-features">Dataset Format</a> •
   <a href="#examples">Examples</a> •
-  <a href="#licence">Licence</a>
+  <a href="#license">License</a>
 </p>
 
 </div>
