@@ -35,7 +35,7 @@ The data is stored in the [objectron bucket](https://storage.googleapis.com/obje
 - The video sequences (located in `/videos/class/batch-i/j/video.MOV` files)
 - The annotation labels containing the 3D bounding boxes for objects. The annotation protobufs are located in `/videos/class/batch-i/j/geometry.pbdata` files. They are formatted using the [object.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/object.proto). See [example] on how to parse the annotation files.
 - AR metadata (such as camera poses, point clouds, and planar surfaces). They are based on [a_r_metadata_capture.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/a_r_metadata_capture.proto). See [example]() on how to parse these files.
-- Processed dataset: sharded and shuffled `tf.records` of the annotated frames, in tf.example format and videos in `tf.SequenceExample` format. These are used for creating the input data pipeline to your models. These files are located in `/v1/records_sharded/class/` and `/v1/sequences/class/`.
+- Processed dataset: sharded and shuffled `tf.records` of the annotated frames, in tf.example format and videos in `tf.SequenceExample` format. These are used for creating the input data pipeline to your models. These files are located in `/v1/records_shuffled/class/` and `/v1/sequences/class/`.
 - Supporting scripts to run evaluation based on the metric described above. 
 - Supporting scripts to load the data into Tensorflow, Jax and Pytorch and visualize the dataset, including “Hello World” examples. 
 - Supporting Apache Beam jobs to process the datasets on Google Cloud infrastructure.
