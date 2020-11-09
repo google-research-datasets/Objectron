@@ -30,7 +30,7 @@ The Objectron dataset is a collection of short, object-centric video clips, whic
 
 
 ## Dataset Format
-The data is stored in the [objectron bucket](https://storage.googleapis.com/objectron) on Google Cloud storage. Check out the [Downoad Data](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Download%20Data.ipynb) notebook for a quick review of how to download/access the dataset. The following assets are available:
+The data is stored in the [objectron bucket](https://storage.googleapis.com/objectron) on Google Cloud storage. Check out the [Download Data](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Download%20Data.ipynb) notebook for a quick review of how to download/access the dataset. The following assets are available:
 
 - The video sequences (located in `/videos/class/batch-i/j/video.MOV` files)
 - The annotation labels containing the 3D bounding boxes for objects. The annotation protobufs are located in `/videos/class/batch-i/j/geometry.pbdata` files. They are formatted using the [object.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/object.proto). See [example] on how to parse the annotation files.
