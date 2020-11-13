@@ -34,7 +34,7 @@ The data is stored in the [objectron bucket](https://storage.googleapis.com/obje
 
 - The video sequences (located in `/videos/class/batch-i/j/video.MOV` files)
 - The annotation labels containing the 3D bounding boxes for objects. The annotation protobufs are located in `/videos/class/batch-i/j/geometry.pbdata` files. They are formatted using the [object.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/object.proto). See [example] on how to parse the annotation files.
-- AR metadata (such as camera poses, point clouds, and planar surfaces). They are based on [a_r_capture_metadata.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/a_r_capture_metadata.proto). See [example](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Parse%20Annotations.ipynb) on how to parse these files.
+- AR metadata (such as camera poses, point clouds, and planar surfaces). They are based on [a_r_capture_metadata.proto](https://github.com/google-research-datasets/Objectron/blob/master/objectron/schema/a_r_capture_metadata.proto). See [example](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/objectron-geometry-tutorial.ipynb) on how to parse these files.
 - Processed dataset: sharded and shuffled `tf.records` of the annotated frames, in tf.example format and videos in `tf.SequenceExample` format. These are used for creating the input data pipeline to your models. These files are located in `/v1/records_shuffled/class/` and `/v1/sequences/class/`.
 - Supporting scripts to run evaluation based on the 3D IoU metric.
 - Supporting scripts to load the data into Tensorflow, Jax and Pytorch and visualize the dataset, including “Hello World” examples.
@@ -53,6 +53,7 @@ Raw dataset size is 1.9TB (including videos and their annotations). Total datase
 - [Hello, World example: Loading examples in Tensorflow](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Hello%20World.ipynb)
 - [Loading data in PyTorch](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Objectron_Pytorch_tutorial.ipynb)
 - [Parsing raw annotation files](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Parse%20Annotations.ipynb)
+- [Parsing the AR metadata](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/objectron-geometry-tutorial.ipynb)
 - [Evaluating the model performance with 3D IoU](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/3D_IOU.ipynb)
 - [SequenceExample tutorial](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/SequenceExamples.ipynb)
 
