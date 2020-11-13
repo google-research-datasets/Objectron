@@ -1,4 +1,4 @@
-"""Features in Deep Pursuit 3D tf.Example."""
+"""Features in Objectron's tf.Example."""
 
 import frozendict
 import tensorflow as tf

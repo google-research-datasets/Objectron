@@ -45,7 +45,7 @@ def safe_divide(i1, i2):
   return i1 / divisor
 
 class Evaluator(object):
-  """Class for evaluating a deep pursuit model."""
+  """Class for evaluating the Objectron's model."""
 
   def __init__(self, height = 640, width = 480):
     self.height, self.width = height, width
