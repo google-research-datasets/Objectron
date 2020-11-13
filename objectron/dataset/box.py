@@ -1,7 +1,4 @@
-"""General 3D Bounding Box class.
-
-   Reference: go/iou3d
-"""
+"""General 3D Bounding Box class."""
 
 import numpy as np
 from numpy.linalg import lstsq as optimizer
