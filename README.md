@@ -61,6 +61,18 @@ Raw dataset size is 1.9TB (including videos and their annotations). Total datase
 Objectron is released under [Computational Use of Data Agreement 1.0 (C-UDA-1.0)](https://github.com/microsoft/Computational-Use-of-Data-Agreement). A [copy](https://github.com/google-research-datasets/Objectron/blob/master/LICENSE) of the license is available in this repository.
 
 
+## BibTeX
+If you found this dataset useful, please cite our [paper](https://arxiv.org/abs/2012.09988).
+
+```
+@article{objectron2020,
+  title={Objectron: A Large Scale Dataset of Object-Centric Videos in the Wild with Pose Annotations},
+  author={Adel Ahmadyan, Liangkai Zhang, Jianing Wei, Artsiom Ablavatski, Matthias Grundmann},
+  journal={arXiv preprint arXiv:2012.09988},
+  year={2020}
+}
+```
+
 **This is not an officially supported Google product.** If you have any question, you can email us at objectron@google.com or join our mailing list at objectron@googlegroups.com
 
 
