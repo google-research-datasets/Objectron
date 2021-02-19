@@ -38,7 +38,7 @@ flags.DEFINE_string('report_file', None, 'Path of the report file to write.')
 _MAX_PIXEL_ERROR = 20.
 _MAX_AZIMUTH_ERROR = 30.
 _MAX_POLAR_ERROR = 20.
-_MAX_DISTANCE = 0.2   # In meters
+_MAX_DISTANCE = 1.0   # In meters
 _NUM_BINS = 21
 
 def safe_divide(i1, i2):
@@ -172,8 +172,8 @@ class Evaluator(object):
           adds = _MAX_DISTANCE
   
         iou_hit_miss.record_hit_miss(iou)
-        add_hit_miss.record_hit_miss(add)
-        adds_hit_miss.record_hit_miss(adds)
+        add_hit_miss.record_hit_miss(add, greater=False)
+        adds_hit_miss.record_hit_miss(adds, greater=False)
         pixel_hit_miss.record_hit_miss(pixel_error, greater=False)
         azimuth_hit_miss.record_hit_miss(azimuth_error, greater=False)
         polar_hit_miss.record_hit_miss(polar_error, greater=False)
