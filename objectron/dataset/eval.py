@@ -6,7 +6,7 @@ have to implement the Evaluator.predict() function, which takes an image and pro
 a 3D bounding box.
 
 Example: 
-  python3 -m objectron.dataset.eval --eval_data=.../chair_train* --report_file=.../report.txt
+  python3 -m objectron.dataset.eval --eval_data=.../chair_test* --report_file=.../report.txt
 """
 
 import math
@@ -38,6 +38,7 @@ flags.DEFINE_string('report_file', None, 'Path of the report file to write.')
 _MAX_PIXEL_ERROR = 20.
 _MAX_AZIMUTH_ERROR = 30.
 _MAX_POLAR_ERROR = 20.
+_MAX_DISTANCE = 0.2   # In meters
 _NUM_BINS = 21
 
 def safe_divide(i1, i2):
@@ -63,11 +64,15 @@ class Evaluator(object):
     self._azimuth_thresholds = np.linspace(
         0.0, _MAX_AZIMUTH_ERROR, num=_NUM_BINS)
     self._polar_thresholds = np.linspace(0.0, _MAX_POLAR_ERROR, num=_NUM_BINS)
+    self._add_thresholds = np.linspace(0.0, _MAX_DISTANCE, num=_NUM_BINS)
+    self._adds_thresholds = np.linspace(0.0, _MAX_DISTANCE, num=_NUM_BINS)
 
     self._iou_ap = metrics.AveragePrecision(_NUM_BINS)
     self._pixel_ap = metrics.AveragePrecision(_NUM_BINS)
     self._azimuth_ap = metrics.AveragePrecision(_NUM_BINS)
     self._polar_ap = metrics.AveragePrecision(_NUM_BINS)
+    self._add_ap = metrics.AveragePrecision(_NUM_BINS)
+    self._adds_ap = metrics.AveragePrecision(_NUM_BINS)
 
   #
   #
@@ -131,6 +136,7 @@ class Evaluator(object):
         if (visibility > self._vis_thresh and
             self._is_visible(instance[0]) and instance_3d[0, 2] < 0):
           num_instances += 1
+
       # We don't have negative examples in evaluation.
       if num_instances == 0:
         continue
@@ -139,6 +145,8 @@ class Evaluator(object):
       azimuth_hit_miss = metrics.HitMiss(self._azimuth_thresholds)
       polar_hit_miss = metrics.HitMiss(self._polar_thresholds)
       pixel_hit_miss = metrics.HitMiss(self._pixel_thresholds)
+      add_hit_miss = metrics.HitMiss(self._add_thresholds)
+      adds_hit_miss = metrics.HitMiss(self._adds_thresholds)
 
       num_matched = 0
       for box in boxes:
@@ -147,7 +155,6 @@ class Evaluator(object):
         if index >= 0:
           num_matched += 1
           pixel_error = self.evaluate_2d(box_point_2d, instances[index])
-
           # If you only compute the 3D bounding boxes from RGB images, 
           # your 3D keypoints may be upto scale. However the ground truth
           # is at metric scale. There is a hack to re-scale your box using 
@@ -155,18 +162,29 @@ class Evaluator(object):
           # However many models learn to predict depths and scale correctly.
           #scale = self.compute_scale(box_point_3d, plane)
           #box_point_3d = box_point_3d * scale
-          azimuth_error, polar_error, iou = self.evaluate_3d(box_point_3d, instances_3d[index])
-          iou_hit_miss.record_hit_miss(iou)
-          pixel_hit_miss.record_hit_miss(pixel_error, greater=False)
-          azimuth_hit_miss.record_hit_miss(azimuth_error, greater=False)
-          polar_hit_miss.record_hit_miss(polar_error, greater=False)
-
-      if num_matched > 0:
-        self._iou_ap.append(iou_hit_miss, num_instances)
-        self._pixel_ap.append(pixel_hit_miss, num_instances)
-        self._azimuth_ap.append(azimuth_hit_miss, num_instances)
-        self._polar_ap.append(polar_hit_miss, num_instances)
-        self._matched += num_matched
+          azimuth_error, polar_error, iou, add, adds= self.evaluate_3d(box_point_3d, instances_3d[index])
+        else:
+          pixel_error = _MAX_PIXEL_ERROR
+          azimuth_error = _MAX_AZIMUTH_ERROR
+          polar_error = _MAX_POLAR_ERROR
+          iou = 0.
+          add = _MAX_DISTANCE
+          adds = _MAX_DISTANCE
+  
+        iou_hit_miss.record_hit_miss(iou)
+        add_hit_miss.record_hit_miss(add)
+        adds_hit_miss.record_hit_miss(adds)
+        pixel_hit_miss.record_hit_miss(pixel_error, greater=False)
+        azimuth_hit_miss.record_hit_miss(azimuth_error, greater=False)
+        polar_hit_miss.record_hit_miss(polar_error, greater=False)
+      
+      self._iou_ap.append(iou_hit_miss, len(instances))
+      self._pixel_ap.append(pixel_hit_miss, len(instances))
+      self._azimuth_ap.append(azimuth_hit_miss, len(instances))
+      self._polar_ap.append(polar_hit_miss, len(instances))
+      self._add_ap.append(add_hit_miss, len(instances))
+      self._adds_ap.append(adds_hit_miss, len(instances))
+      self._matched += num_matched
 
   def evaluate_2d(self, box, instance):
     """Evaluates a pair of 2D projections of 3D boxes.
@@ -194,11 +212,14 @@ class Evaluator(object):
       instance: A 9*3 array of an annotated box, in metric level.
 
     Returns:
-      The 3D IoU (float)
+      A tuple containing the azimuth error, polar error, 3D IoU (float), 
+      average distance error, and average symmetric distance error.
     """
     azimuth_error, polar_error = self.evaluate_viewpoint(box_point_3d, instance)
+    avg_distance, avg_sym_distance = self.compute_average_distance(box_point_3d,
+                                                                   instance)
     iou = self.evaluate_iou(box_point_3d, instance)
-    return azimuth_error, polar_error, iou
+    return azimuth_error, polar_error, iou, avg_distance, avg_sym_distance 
 
   def compute_scale(self, box, plane):
     """Computes scale of the given box sitting on the plane."""
@@ -265,6 +286,31 @@ class Evaluator(object):
     transform = np.matmul(box_oct, box_cct_inv)
     return transform[:3, 3:].reshape((3))
 
+  def compute_average_distance(self, box, instance):
+    """Computes Average Distance (ADD) metric."""
+    add_distance = 0.
+    for i in range(Box.NUM_KEYPOINTS):
+      delta = np.linalg.norm(box[i, :] - instance[i, :])
+      add_distance += delta
+    add_distance /= Box.NUM_KEYPOINTS
+
+
+    # Computes the symmetric version of the average distance metric.
+    # From PoseCNN https://arxiv.org/abs/1711.00199
+    # For each keypoint in predicttion, search for the point in ground truth
+    # that minimizes the distance between the two.
+    add_sym_distance = 0.
+    for i in range(Box.NUM_KEYPOINTS):
+      # Find nearest vertex in instance
+      distance = np.linalg.norm(box[i, :] - instance[0, :])
+      for j in range(Box.NUM_KEYPOINTS):
+        d = np.linalg.norm(box[i, :] - instance[j, :])
+        if d < distance:
+          distance = d
+      add_sym_distance += distance
+    add_sym_distance /= Box.NUM_KEYPOINTS
+
+    return add_distance, add_sym_distance
 
   def compute_viewpoint(self, box):
     """Computes viewpoint of a 3D bounding box.
@@ -454,6 +500,20 @@ class Evaluator(object):
         f.write('{:.4f},\t'.format(threshold * 0.1))
       f.write('\n')
       report_array(f, 'AP @Polar     : ', self._polar_ap.aps)
+      f.write('\n')
+
+      f.write('ADD Thresh    : ')
+      for threshold in self._add_thresholds:
+        f.write('{:.4f},\t'.format(threshold))
+      f.write('\n')
+      report_array(f, 'AP @ADD       : ', self._add_ap.aps)
+      f.write('\n')
+
+      f.write('ADDS Thresh   : ')
+      for threshold in self._adds_thresholds:
+        f.write('{:.4f},\t'.format(threshold))
+      f.write('\n')
+      report_array(f, 'AP @ADDS      : ', self._adds_ap.aps)
 
   def finalize(self):
     """Computes average precision curves."""
@@ -461,6 +521,8 @@ class Evaluator(object):
     self._pixel_ap.compute_ap_curve()
     self._azimuth_ap.compute_ap_curve()
     self._polar_ap.compute_ap_curve()
+    self._add_ap.compute_ap_curve()
+    self._adds_ap.compute_ap_curve()
 
   def _is_visible(self, point):
     """Determines if a 2D point is visible."""
