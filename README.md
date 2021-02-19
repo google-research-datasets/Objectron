@@ -3,7 +3,7 @@
 
 # Objectron Dataset
 
-**Objectron is a dataset of short object centeric video clips with pose annotations.**
+**Objectron is a dataset of short object centric video clips with pose annotations.**
 
 <img src="docs/images/objectron_samples.gif" width="600px">
 
