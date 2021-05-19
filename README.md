@@ -65,11 +65,11 @@ Objectron is released under [Computational Use of Data Agreement 1.0 (C-UDA-1.0)
 If you found this dataset useful, please cite our [paper](https://arxiv.org/abs/2012.09988).
 
 ```
-@article{objectron2020,
+@article{objectron2021,
   title={Objectron: A Large Scale Dataset of Object-Centric Videos in the Wild with Pose Annotations},
-  author={Adel Ahmadyan, Liangkai Zhang, Jianing Wei, Artsiom Ablavatski, Matthias Grundmann},
-  journal={arXiv preprint arXiv:2012.09988},
-  year={2020}
+  author={Adel Ahmadyan, Liangkai Zhang, Artsiom Ablavatski, Jianing Wei, Matthias Grundmann},
+  journal={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  year={2021}
 }
 ```
 
