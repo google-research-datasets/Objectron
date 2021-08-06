@@ -56,6 +56,7 @@ Raw dataset size is 1.9TB (including videos and their annotations). Total datase
 - [Parsing the AR metadata](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/objectron-geometry-tutorial.ipynb)
 - [Evaluating the model performance with 3D IoU](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/3D_IOU.ipynb)
 - [SequenceExample tutorial](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/SequenceExamples.ipynb)
+- [Training a NeRF model](https://github.com/google-research-datasets/Objectron/blob/master/notebooks/Objectron_NeRF_Tutorial.ipynb)
 
 ## License
 Objectron is released under [Computational Use of Data Agreement 1.0 (C-UDA-1.0)](https://github.com/microsoft/Computational-Use-of-Data-Agreement). A [copy](https://github.com/google-research-datasets/Objectron/blob/master/LICENSE) of the license is available in this repository.
