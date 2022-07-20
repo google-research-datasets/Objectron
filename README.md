@@ -19,7 +19,11 @@
 
 
 
-The Objectron dataset is a collection of short, object-centric video clips, which are accompanied by AR session metadata that includes camera poses, sparse point-clouds and characterization of the planar surfaces in the surrounding environment. In each video, the camera moves around the object, capturing it from different angles. The data also contain manually annotated 3D bounding boxes for each object, which describe the object’s position, orientation, and dimensions. The dataset consists of 15K annotated video clips supplemented with over 4M annotated images in the following categories: `bikes, books, bottles, cameras, cereal boxes, chairs, cups, laptops`, and `shoes`. In addition, to ensure geo-diversity, our dataset is collected from 10 countries across five continents. Along with the dataset, we are also sharing a [3D object detection solution](https://google.github.io/mediapipe/solutions/objectron) for four categories of objects — shoes, chairs, mugs, and cameras. These models are trained using this dataset, and are released in [MediaPipe](https://mediapipe.dev/), Google's open source framework for cross-platform customizable ML solutions for live and streaming media.
+The Objectron dataset is a collection of short, object-centric video clips, which are accompanied by AR session metadata that includes camera poses, sparse point-clouds and characterization of the planar surfaces in the surrounding environment. In each video, the camera moves around the object, capturing it from different angles. 
+
+The data also contain manually annotated 3D bounding boxes for each object, which describe the object’s position, orientation, and dimensions. The dataset consists of 15K annotated video clips supplemented with over 4M annotated images in the following categories: `bikes, books, bottles, cameras, cereal boxes, chairs, cups, laptops`, and `shoes`. In addition, to ensure geo-diversity, our dataset is collected from 10 countries across five continents. 
+
+Along with the dataset, we are also sharing a [3D object detection solution](https://google.github.io/mediapipe/solutions/objectron) for four categories of objects — shoes, chairs, mugs, and cameras. These models are trained using this dataset, and are released in [MediaPipe](https://mediapipe.dev/), Google's open source framework for cross-platform customizable ML solutions for live and streaming media.
 
 ## Key Features
 - 15000 annotated videos and 4M annotated images
